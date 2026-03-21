@@ -1,0 +1,224 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* TikTok Embed Styles */
+.tiktok-embed {
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 325px !important;
+}
+
+.tiktok-embed iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+}
+
+@layer base {
+  :root {
+    /* Warm Beige Background */
+    --background: 38 40% 96%;
+    --foreground: 30 20% 15%;
+
+    /* Cards with cream tones */
+    --card: 40 35% 98%;
+    --card-foreground: 30 20% 15%;
+
+    --popover: 40 35% 98%;
+    --popover-foreground: 30 20% 15%;
+
+    /* Rose Pink Primary */
+    --primary: 350 55% 60%;
+    --primary-foreground: 40 40% 98%;
+
+    /* Earthy Brown Secondary */
+    --secondary: 30 25% 88%;
+    --secondary-foreground: 30 30% 25%;
+
+    /* Muted Beige */
+    --muted: 35 30% 92%;
+    --muted-foreground: 30 15% 45%;
+
+    /* Soft Green Accent */
+    --accent: 145 35% 45%;
+    --accent-foreground: 40 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 35 25% 88%;
+    --input: 35 25% 88%;
+    --ring: 350 55% 60%;
+
+    --radius: 1rem;
+
+    /* Custom tokens */
+    --rose: 350 55% 60%;
+    --rose-light: 350 60% 75%;
+    --rose-dark: 350 50% 45%;
+    --brown: 30 30% 35%;
+    --brown-light: 30 25% 55%;
+    --green: 145 35% 45%;
+    --green-light: 145 40% 60%;
+    --beige: 38 40% 96%;
+    --cream: 40 35% 98%;
+    --gold: 42 70% 55%;
+
+    /* Gradients */
+    --gradient-rose: linear-gradient(135deg, hsl(350 55% 60%), hsl(350 60% 70%));
+    --gradient-warm: linear-gradient(180deg, hsl(38 40% 96%) 0%, hsl(35 30% 92%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(350 55% 60% / 0.9), hsl(30 30% 35% / 0.8));
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -4px hsl(30 30% 35% / 0.1);
+    --shadow-card: 0 8px 30px -8px hsl(30 30% 35% / 0.12);
+    --shadow-elevated: 0 20px 50px -12px hsl(30 30% 35% / 0.2);
+
+    /* Sidebar tokens */
+    --sidebar-background: 40 35% 98%;
+    --sidebar-foreground: 30 20% 15%;
+    --sidebar-primary: 350 55% 60%;
+    --sidebar-primary-foreground: 40 40% 98%;
+    --sidebar-accent: 35 30% 92%;
+    --sidebar-accent-foreground: 30 20% 15%;
+    --sidebar-border: 35 25% 88%;
+    --sidebar-ring: 350 55% 60%;
+  }
+
+  .dark {
+    --background: 30 20% 10%;
+    --foreground: 40 30% 95%;
+
+    --card: 30 18% 14%;
+    --card-foreground: 40 30% 95%;
+
+    --popover: 30 18% 14%;
+    --popover-foreground: 40 30% 95%;
+
+    --primary: 350 55% 65%;
+    --primary-foreground: 30 20% 10%;
+
+    --secondary: 30 20% 20%;
+    --secondary-foreground: 40 30% 90%;
+
+    --muted: 30 15% 18%;
+    --muted-foreground: 35 15% 60%;
+
+    --accent: 145 35% 50%;
+    --accent-foreground: 30 20% 10%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 15% 22%;
+    --input: 30 15% 22%;
+    --ring: 350 55% 65%;
+
+    --sidebar-background: 30 18% 12%;
+    --sidebar-foreground: 40 30% 95%;
+    --sidebar-primary: 350 55% 65%;
+    --sidebar-primary-foreground: 30 20% 10%;
+    --sidebar-accent: 30 15% 18%;
+    --sidebar-accent-foreground: 40 30% 95%;
+    --sidebar-border: 30 15% 22%;
+    --sidebar-ring: 350 55% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .text-gradient-rose {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-rose);
+  }
+
+  .bg-gradient-hero {
+    background-image: var(--gradient-hero);
+  }
+
+  .bg-gradient-warm {
+    background-image: var(--gradient-warm);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .card-hover:hover {
+    @apply -translate-y-1;
+    box-shadow: var(--shadow-elevated);
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
