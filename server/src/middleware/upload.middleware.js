@@ -1,5 +1,7 @@
 import multer from 'multer';
-import { uploadImage } from '../utils/cloudinary.js';
+import { promises as fs } from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // Configure multer for memory storage
 const storage = multer.memoryStorage();
@@ -22,7 +24,32 @@ export const upload = multer({
   },
 });
 
-// Middleware to upload image to Cloudinary
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const getFileExtension = (file) => {
+  const mimeExtension = file?.mimetype?.split('/')?.[1];
+  const originalExt = file?.originalname ? path.extname(file.originalname) : '';
+  return originalExt || (mimeExtension ? `.${mimeExtension}` : '.jpg');
+};
+
+const saveImageLocally = async (file, folder = 'products') => {
+  const uploadRoot = path.resolve(__dirname, '../../uploads');
+  const destinationDir = path.join(uploadRoot, folder);
+  await fs.mkdir(destinationDir, { recursive: true });
+
+  const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}${getFileExtension(file)}`;
+  const absolutePath = path.join(destinationDir, filename);
+
+  await fs.writeFile(absolutePath, file.buffer);
+
+  return {
+    relativePath: `/uploads/${folder}/${filename}`,
+    filename,
+  };
+};
+
+// Middleware to upload image to local storage
 export const uploadToCloudinary = async (req, res, next) => {
   try {
     if (!req.file) {
@@ -32,25 +59,20 @@ export const uploadToCloudinary = async (req, res, next) => {
 
     // Determine folder based on field name or route
     const folder = req.file.fieldname === 'profile_image' ? 'profiles' : 'products';
-
-    // Upload to Cloudinary
-    const result = await uploadImage(
-      req.file.buffer,
-      folder,
-      null
-    );
+    const localFile = await saveImageLocally(req.file, folder);
+    const localUrl = `${req.protocol}://${req.get('host')}${localFile.relativePath}`;
 
     // Attach image URL to request body based on field name
     if (req.file.fieldname === 'profile_image') {
-      req.body.profile_image_url = result.url;
+      req.body.profile_image_url = localUrl;
     } else {
-      req.body.image_url = result.url;
+      req.body.image_url = localUrl;
     }
-    req.body.image_public_id = result.public_id;
+    req.body.image_public_id = null;
 
     next();
   } catch (error) {
-    console.error('Cloudinary upload middleware error:', error);
+    console.error('Local upload middleware error:', error);
     return res.status(500).json({
       success: false,
       message: 'Failed to upload image',

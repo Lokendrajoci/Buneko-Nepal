@@ -40,7 +40,7 @@ const productValidation = [
     .withMessage('Stock must be a non-negative integer'),
   body('image_url')
     .optional()
-    .isURL()
+    .isURL({ require_tld: false })
     .withMessage('Image URL must be a valid URL'),
 ];
 

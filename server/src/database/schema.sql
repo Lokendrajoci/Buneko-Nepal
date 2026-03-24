@@ -1,11 +1,3 @@
--- Buneko Blooms Database Schema
--- MySQL Database
-
--- Create database (run this manually if needed)
--- CREATE DATABASE IF NOT EXISTS buneko_blooms;
--- USE buneko_blooms;
-
--- Users table
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -24,7 +16,6 @@ CREATE TABLE IF NOT EXISTS users (
   INDEX idx_is_active (is_active)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Categories table
 CREATE TABLE IF NOT EXISTS categories (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50) NOT NULL UNIQUE,
@@ -51,7 +42,6 @@ CREATE TABLE IF NOT EXISTS products (
   INDEX idx_created (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Contents table (for TikTok and other content links)
 CREATE TABLE IF NOT EXISTS contents (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(150) NOT NULL,
@@ -63,7 +53,6 @@ CREATE TABLE IF NOT EXISTS contents (
   INDEX idx_created (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Orders table
 CREATE TABLE IF NOT EXISTS orders (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
@@ -83,7 +72,7 @@ CREATE TABLE IF NOT EXISTS orders (
   INDEX idx_created (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Order items table
+
 CREATE TABLE IF NOT EXISTS order_items (
   id INT AUTO_INCREMENT PRIMARY KEY,
   order_id INT NOT NULL,
@@ -97,7 +86,7 @@ CREATE TABLE IF NOT EXISTS order_items (
   INDEX idx_product (product_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Wishlist table (optional)
+
 CREATE TABLE IF NOT EXISTS wishlist (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
@@ -109,7 +98,7 @@ CREATE TABLE IF NOT EXISTS wishlist (
   INDEX idx_user (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Customizations table (for custom flower/bouquet requests)
+
 CREATE TABLE IF NOT EXISTS customizations (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,

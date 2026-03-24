@@ -12,7 +12,7 @@ cloudinary.config({
 
 /**
  * Upload image to Cloudinary
- * @param {Buffer|string} file - File buffer or base64 string
+ * @param {Buffer|string|Object} file - File buffer, base64 string, or multer file object
  * @param {string} folder - Folder path in Cloudinary
  * @param {string} publicId - Optional public ID for the image
  * @returns {Promise<Object>} Cloudinary upload result
@@ -31,9 +31,12 @@ export const uploadImage = async (file, folder = 'products', publicId = null) =>
       uploadOptions.public_id = publicId;
     }
 
-    // If file is a buffer, convert to base64
+    // Accept multer file object, raw buffer, or base64 string.
     let fileData = file;
-    if (Buffer.isBuffer(file)) {
+    if (file && typeof file === 'object' && Buffer.isBuffer(file.buffer)) {
+      const mimeType = file.mimetype || 'image/jpeg';
+      fileData = `data:${mimeType};base64,${file.buffer.toString('base64')}`;
+    } else if (Buffer.isBuffer(file)) {
       fileData = `data:image/jpeg;base64,${file.toString('base64')}`;
     }
 
