@@ -63,6 +63,13 @@ class ApiClient {
           (error as any).status = 403;
           throw error;
         }
+        if (Array.isArray(data?.errors) && data.errors.length > 0) {
+          const validationMessage = data.errors
+            .map((err: any) => err.msg || err.message)
+            .filter(Boolean)
+            .join(', ');
+          throw new Error(validationMessage || data.message || 'Validation failed');
+        }
         // Provide more detailed error message
         const errorMessage = data.message || data.error || `Request failed with status ${response.status}`;
         throw new Error(errorMessage);
